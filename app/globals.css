@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: #111;
+  color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  background: linear-gradient(90deg, #0dcaf0 0%, #6610f2 100%) !important;
+  border-bottom: 3px solid #0dcaf0;
+  box-shadow: 0 6px 32px 0 #0dcaf0cc, 0 1.5px 0 #fff2;
+  z-index: 100;
+}
+.nav-glow {
+  box-shadow: 0 6px 32px 0 #0dcaf0cc, 0 1.5px 0 #fff2;
+}
+.nav-logo-glow svg {
+  filter: drop-shadow(0 0 12px #0dcaf0) drop-shadow(0 0 4px #6610f2);
+  transition: filter 0.2s;
+}
+.nav-logo-glow:hover svg {
+  filter: drop-shadow(0 0 24px #0dcaf0) drop-shadow(0 0 12px #6610f2);
+}
+.nav-title-glow {
+  text-shadow: 0 0 8px #0dcaf0, 0 0 2px #fff;
+  transition: text-shadow 0.2s, color 0.2s;
+}
+.nav-logo-glow:hover .nav-title-glow {
+  color: #fff;
+  text-shadow: 0 0 16px #0dcaf0, 0 0 8px #6610f2, 0 0 2px #fff;
+}
+.navbar-nav .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+  color: #0dcaf0 !important;
+  text-shadow: 0 0 8px #0dcaf0, 0 0 2px #fff;
+}
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  filter: drop-shadow(0 0 0 #0dcaf0);
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(13,202,240,0.3), 0 4px 24px rgba(102,16,242,0.2);
+  filter: drop-shadow(0 0 16px #0dcaf0);
+  z-index: 2;
+}
+.table-dark {
+  background-color: #222;
+}
+.btn-primary, .bg-primary {
+  background: linear-gradient(90deg, #0dcaf0 0%, #6610f2 100%) !important;
+  border: none;
+  box-shadow: 0 0 8px #0dcaf055;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 24px #0dcaf0cc;
+  transform: scale(1.07);
+}
+.btn-success, .bg-success {
+  background: linear-gradient(90deg, #20c997 0%, #0dcaf0 100%) !important;
+  border: none;
+  box-shadow: 0 0 8px #20c99755;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-success:hover {
+  box-shadow: 0 0 24px #20c997cc;
+  transform: scale(1.07);
+}
+.btn-info {
+  background: #0dcaf0 !important;
+  color: #111 !important;
+  border: none;
+  box-shadow: 0 0 8px #0dcaf055;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-info:hover {
+  box-shadow: 0 0 24px #0dcaf0cc;
+  transform: scale(1.07);
+}
+.btn-warning {
+  background: #ffc107 !important;
+  color: #111 !important;
+  border: none;
+  box-shadow: 0 0 8px #ffc10755;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-warning:hover {
+  box-shadow: 0 0 24px #ffc107cc;
+  transform: scale(1.07);
+}
+.btn-secondary {
+  background: #343a40 !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 0 8px #343a4055;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn-secondary:hover {
+  box-shadow: 0 0 24px #343a40cc;
+  transform: scale(1.07);
+}
+a, .btn-link { color: #0dcaf0; }
+a:hover, .btn-link:hover { color: #0bbbe6; text-decoration: underline; }
+footer {
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+.nav-logo-bg {
+  background: rgba(20, 20, 30, 0.85);
+  border-radius: 1.5rem;
+  padding: 0.25rem 1.2rem 0.25rem 0.5rem;
+  box-shadow: 0 0 12px #0dcaf055;
+}
+.nav-title-glow {
+  color: #fff !important;
+  text-shadow: 0 0 8px #0dcaf0cc, 0 0 2px #fff;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  transition: text-shadow 0.2s, color 0.2s;
+}
+.nav-title-contrast {
+  filter: drop-shadow(0 1px 0 #222b3a) drop-shadow(0 0 2px #fff8);
+}
+.nav-logo-glow svg {
+  filter: drop-shadow(0 0 8px #0dcaf0) drop-shadow(0 0 2px #fff);
+  background: transparent;
+  border-radius: 50%;
+}
+.nav-logo-glow:hover svg {
+  filter: drop-shadow(0 0 18px #0dcaf0) drop-shadow(0 0 8px #6610f2);
+}
+
+h1, h2, h3 {
+  color: #ffd700;
+  margin-bottom: 0.5em;
+}
+
+a {
+  color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #333;
+  margin: 0.5em 0;
+  padding: 0.7em 1em;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+li:hover {
+  background: #444;
+}
+
+button {
+  background: #2f9fd3;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 4px;
+  cursor: pointer;
+  /* margin-top: 1em; */
+  font-size: 1em;
+  font-weight: bold;
+  box-shadow: 0 2px 8px #0004;
+}
+
+button:hover {
+  background: #1c8bb7;
+}
+
+.form-container {
+  background: #292929;
+  padding: 2em 2.5em;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 2em auto;
+  box-shadow: 0 4px 24px #0006;
+}
+
+form label {
+  display: block;
+  margin-bottom: 1em;
+  color: #ffd700;
+  font-weight: 500;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="file"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.6em;
+  margin-top: 0.3em;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background: #222;
+  color: #f5f5f5;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5em;
+}
+
+.dark-bg-animated {
+  background: radial-gradient(ellipse at 20% 30%, #0dcaf055 0%, #111 80%),
+              radial-gradient(ellipse at 80% 70%, #6610f255 0%, #111 80%),
+              linear-gradient(120deg, #111 60%, #222b3a 100%);
+  animation: darkbgmove 12s linear infinite alternate;
+}
+@keyframes darkbgmove {
+  0% { background-position: 0% 0%, 100% 100%, 0% 0%; }
+  100% { background-position: 20% 40%, 80% 60%, 100% 100%; }
+}
+.animate-bounce {
+  animation: bounce 1.2s infinite alternate cubic-bezier(.5,1.5,.5,1);
+}
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-18px); }
+}
+.animate-pop {
+  animation: popin 0.7s cubic-bezier(.5,1.5,.5,1) both;
+}
+@keyframes popin {
+  0% { transform: scale(0.7) rotate(-8deg); opacity: 0; }
+  80% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
