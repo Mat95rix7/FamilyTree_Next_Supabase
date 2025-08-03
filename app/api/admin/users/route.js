@@ -1,4 +1,4 @@
-import { supabaseAdmin as supabaseServer } from '@/lib/supabaseClient';
+import { supabaseAdmin as supabaseServer } from '@/lib/supabaseAdmin';
 
 export async function GET(req) {
   try {

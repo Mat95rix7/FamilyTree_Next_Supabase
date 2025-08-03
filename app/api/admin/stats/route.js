@@ -1,6 +1,6 @@
 // app/api/admin/stats/route.ts
 import { NextResponse } from 'next/server';
-import { supabaseAdmin as supabaseServer } from '@/lib/supabaseClient'; // client configuré avec service_role
+import { supabaseAdmin as supabaseServer } from '@/lib/supabaseAdmin'; // client configuré avec service_role
 
 export async function GET() {
   try {
