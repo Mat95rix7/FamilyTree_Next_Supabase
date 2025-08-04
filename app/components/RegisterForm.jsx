@@ -10,8 +10,6 @@ import { useAuth } from '../context/AuthContext';
 const RegisterForm = () => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const [validation, setValidation] = useState("");
-  const [validUsername, setValidUsername] = useState("")
   const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
@@ -44,7 +42,7 @@ const RegisterForm = () => {
       [name]: error
     }));
   };
-  
+    
   const handleSubmit = async(e) => {
     e.preventDefault();
     const newErrors = {};
@@ -57,18 +55,16 @@ const RegisterForm = () => {
       setErrors(newErrors);
       return;
     }
-    setIsLoading(true);  
-    if(validation) {
-      setIsLoading(false);
-      return
-    }
+    setIsLoading(true);
+ 
     try {
           const data = await register({
                                  username: formData.username, 
                                  email: formData.email, 
                                  password : formData.password
                                 });
-          if (data) {        
+
+          if (data.success) {        
             setShowModal(true);
             setTimeout(() => {
               setShowModal(false);
@@ -102,11 +98,7 @@ const RegisterForm = () => {
           />
           {errors.username && (
               <p className="mb-3 text-center text-sm text-amber-500">{errors.username}</p>
-            )}
-          {validUsername && (
-              <p className="mb-3 text-center text-sm text-amber-500">{validUsername}</p>
-            )}
-            
+            )}           
           <input
             className="mb-3 p-4 text-lg border text-gray-500 border-gray-300 rounded-md"
             type="email"
@@ -132,7 +124,6 @@ const RegisterForm = () => {
             {errors.password && (
               <p className="mb-3 text-center text-sm text-amber-500">{errors.password}</p>
             )}
-          <p className="mb-3 text-center text-sm text-amber-500">{validation}</p>
             
         <button
           type="submit"

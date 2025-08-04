@@ -34,7 +34,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/treepage/page.js", "tailwind.config.js", "app/components/RegisterForm.js"  ],
+, "app/treepage/page.js", "tailwind.config.js", "app/components/RegisterForm.jsx"  ],
   "exclude": [
     "node_modules"
   ]

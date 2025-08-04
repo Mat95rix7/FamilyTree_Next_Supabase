@@ -9,7 +9,7 @@ import { CheckCircle } from 'lucide-react';
 
 const SuccessModal = ({ showModal, setShowModal, type }) => {
 
-  if (!showModal) return null;
+  // if (!showModal) return null;
   
   const titre = {
     connexion: "Connexion réussie!",
