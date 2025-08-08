@@ -26,10 +26,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <AuthGuard>
+          {/* <AuthGuard> */}
             <Navbar />
             {children}
-          </AuthGuard>
+          {/* </AuthGuard> */}
         </AuthProvider>
       </body>
     </html>

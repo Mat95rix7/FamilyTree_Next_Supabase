@@ -58,12 +58,12 @@ const RegisterForm = () => {
     setIsLoading(true);
  
     try {
-          const data = await register({
-                                 username: formData.username, 
-                                 email: formData.email, 
-                                 password : formData.password
-                                });
-
+          // const data = await register({
+          //                        username: formData.username, 
+          //                        email: formData.email, 
+          //                        password : formData.password
+          //                       });
+          const data = await register(formData.email, formData.password, formData.username);
           if (data.success) {        
             setShowModal(true);
             setTimeout(() => {

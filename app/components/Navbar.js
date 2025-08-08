@@ -4,7 +4,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import  { useAuth }  from '../context/AuthContext';
 import Link from 'next/link';
 import Image from 'next/image';
-// import { toast } from 'react-hot-toast';
 import { Button } from '../../components/ui/button';
 import { GiHamburgerMenu } from "react-icons/gi";
 import {
@@ -18,11 +17,7 @@ import {
   IoLogOutOutline, 
   IoPeopleOutline, 
   IoPersonCircleOutline, 
-  IoShield, 
   IoShieldCheckmark, 
-  IoShieldCheckmarkOutline, 
-  IoShieldCheckmarkSharp, 
-  IoShieldOutline 
 } from "react-icons/io5";
 
 export default function Navbar() {

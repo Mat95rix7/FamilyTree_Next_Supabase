@@ -53,7 +53,7 @@ export function LoginForm() {
     }
 
     try {
-      const data = await login({ email, password });
+      const data = await login( email, password );
 
       if (!data) {
         setErrorAuth('Identifiants invalides');
