@@ -47,8 +47,8 @@ export default function PeresList() {
 
   return (
     <div className="container py-8 mx-auto">
-      <h1 className="text-3xl font-bold text-cyan-300 mb-8 text-center">
-        Liste des Familles
+      <h1 className="text-3xl font-bold text-cyan-300 mb-8">
+        Liste des Familles ( {filteredfamilles.length} )
       </h1>
       <div className="mb-6 bg-gray-800 bg-opacity-50 backdrop-blur-sm rounded-lg p-4 shadow-lg flex flex-col sm:flex-row sm:items-center gap-4 mx-5 md:mx-0">
         <div className="flex flex-1 items-center gap-4">

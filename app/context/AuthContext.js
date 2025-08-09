@@ -28,7 +28,6 @@ export function AuthProvider({ children }) {
       }
 
       const data = await res.json();
-      console.log(data);
       if (data?.user) {
         setIsConnected(true);
         setRole(data.profile?.role || "user");

@@ -49,8 +49,8 @@ function FamilyMember({ role, personne, link, small = false, disabled = false })
       />
 
       <div
-        className={`font-bold mt-1 text-center text-sm ${
-          hasData ? "group-hover:text-purple-500 transition" : "text-gray-400"
+        className={`font-bold mt-1 text-center text-lg ${
+          hasData ? "group-hover:text-purple-500 !text-yellow-300 transition" : "text-gray-400"
         }`}
       >
         {firstName}
@@ -124,9 +124,9 @@ export default function FamillePage() {
         <div className="family-tree flex flex-col items-center">
           <div className="flex justify-center gap-2 md:gap-10 mb-4 family-row w-full md:max-w-none px-2 md:px-4">
             <FamilyMember role="Grand-père paternel" personne={grand_pere_paternel} link={grand_pere_paternel ? `/familles/${grand_pere_paternel.id}` : "#"} small />
-            <FamilyMember role="Grand-mère paternelle" personne={grand_mere_paternelle} link={grand_mere_paternelle ? `/familles/${grand_pere_paternel.id}` : "#"} small />
+            <FamilyMember role="Grand-mère paternelle" personne={grand_mere_paternelle} link={grand_pere_paternel ? `/familles/${grand_pere_paternel.id}` : "#"} small />
             <FamilyMember role="Grand-père maternel" personne={grand_pere_maternel} link={grand_pere_maternel ? `/familles/${grand_pere_maternel.id}` : "#"} small />
-            <FamilyMember role="Grand-mère maternelle" personne={grand_mere_maternelle} link={grand_mere_maternelle ? `/familles/${grand_pere_maternel.id}` : "#"} small />
+            <FamilyMember role="Grand-mère maternelle" personne={grand_mere_maternelle} link={grand_pere_maternel ? `/familles/${grand_pere_maternel.id}` : "#"} small />
           </div>
 
           <svg className="w-full h-[30px]" viewBox="0 0 600 30" preserveAspectRatio="xMidYMid meet">
@@ -157,7 +157,11 @@ export default function FamillePage() {
             <line x1="210" y1="0" x2="210" y2="30" stroke="#0dcaf0" strokeWidth="2" className="md:hidden" />
             <line x1="85" y1="30" x2="210" y2="30" stroke="#0dcaf0" strokeWidth="2" className="md:hidden" />
           </svg>
-          <div className="grid grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10 mt-5 px-2 md:px-4">
+          <div   className={`mt-5 px-2 md:px-4 ${
+                enfants && enfants.length > 0
+                  ? "grid grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10"
+                  : "flex justify-center mt-10 mb-5"
+              }`}>
             {enfants && enfants.length > 0 ? (
               enfants
               .slice() // pour ne pas muter l'original
@@ -180,7 +184,7 @@ export default function FamillePage() {
                 );
               })
             ) : (
-              <div className="font-bold text-gray-400 family-label">Aucun enfant trouvé.</div>
+              <div className="font-bold text-gray-400 family-label text-center">Aucun enfant trouvé.</div>
             )}
           </div>
         </div>

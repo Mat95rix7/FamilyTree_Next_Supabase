@@ -110,6 +110,8 @@ export default function PersonForm({
         body: formData,
       });
 
+      console.log(await response.json());
+
       if (response.ok) {
         if (onSuccess) {
           onSuccess();

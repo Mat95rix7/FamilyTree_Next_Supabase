@@ -72,7 +72,7 @@ const handleSort = (key) => {
 
   return (
     <div className="container py-8 mx-auto">
-      <h1 className="text-3xl font-bold text-cyan-300 mb-6 mx-5 md:mx-0">Liste des personnes</h1>
+      <h1 className="text-3xl font-bold text-cyan-300 mb-6 mx-5 md:mx-0">Liste des personnes ( {sorted.length} )</h1>
 
       {/* Barre de recherche et bouton */}
       <div className="mb-6">
