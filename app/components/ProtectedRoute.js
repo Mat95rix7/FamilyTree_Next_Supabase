@@ -9,6 +9,8 @@ export default function ProtectedRoute({ children }) {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(role, isConnected, pathname);
+
   useEffect(() => {
     // Attendre que l'état d'authentification soit initialisé
     if (role === undefined || isConnected === undefined) {
