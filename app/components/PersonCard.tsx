@@ -22,7 +22,7 @@ export default function PersonCard({ personne }) {
         />
         <div className="flex-1">
           <h3 className="text-cyan-200 font-bold">
-            {personne.first_name} {personne.last_name}
+             {personne.last_name} {personne.first_name}
           </h3>
           <p>{personne.gender === 'Homme' ? "Fils de " : "Fille de "}<span className="text-gray-400">{personne.father ? personne.father.first_name : "Inconnu"}</span></p>
           <p className="text-sm text-gray-400">

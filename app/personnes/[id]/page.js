@@ -181,7 +181,7 @@ export default function PersonneDetail() {
                 className="rounded-full border-4 border-cyan-400 shadow-lg"
               />
               {personne.age && (
-                <div className="absolute top-2 right-0 bg-yellow-400 text-gray-900 font-bold text-xs px-2 py-1 rounded-bl-lg rounded-tr-xl md:hidden">
+                <div className="absolute top-2 right-0 bg-yellow-400 text-gray-900 font-bold text-xs px-2 py-1 rounded-bl-lg rounded-tr-xl border-2 border-cyan-400 md:hidden">
                   {personne.age} ans
                 </div>
               )}
@@ -195,7 +195,7 @@ export default function PersonneDetail() {
           <div className="flex-1 w-full md:w-2/3">
             <div className="text-center md:text-left mb-4">
               <h2 className="text-2xl font-bold mb-2 flex flex-col md:flex-row items-center justify-center  gap-2">
-                <span>{personne.first_name} {personne.last_name}</span>
+                <span>{personne.last_name} {personne.first_name}</span>
                 <span className="hidden md:inline-block bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
                   {personne.age ? `${personne.age} ans` : ''}
                 </span>

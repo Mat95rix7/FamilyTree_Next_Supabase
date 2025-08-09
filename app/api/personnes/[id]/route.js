@@ -3,7 +3,7 @@ import { getOnePersonne, updatePersonne, deletePersonne } from '@/app/services/p
 
 export async function GET(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const personne = await getOnePersonne(id);
     return NextResponse.json(personne);
   } catch (error) {
@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     // Récupérer les données du formulaire
     const formData = await request.formData();
@@ -32,7 +32,7 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const result = await deletePersonne(id);
     return NextResponse.json(result);
   } catch (error) {
