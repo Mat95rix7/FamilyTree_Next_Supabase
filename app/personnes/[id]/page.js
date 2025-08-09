@@ -67,30 +67,140 @@ export default function PersonneDetail() {
   const getNomPrenom = (obj) => obj ? `${obj.first_name || ''} ${obj.last_name || ''}`.trim() : 'Non renseigné';
 
   return (
-    <div className="container py-8 mx-auto">
+    // <div className="container py-8 mx-auto">
+    //   <div className="max-w-3xl mx-5 md:mx-auto card bg-gray-900 text-white mb-8 shadow-lg border-2 border-cyan-400 rounded-2xl">
+    //     <div className="flex flex-col md:flex-row items-center gap-8 p-8">
+    //       <div className="text-center">
+    //         <Image
+    //           src={getPhotoUrl(personne.photo) || ""}
+    //           alt="Photo"
+    //           width={150}
+    //           height={150}
+    //           className="rounded-full border-4 border-cyan-400 shadow-lg"
+    //         />
+    //         <div className="mt-2">
+    //           <span className="inline-block bg-cyan-400 text-gray-900 text-sm font-semibold px-3 py-1 rounded-lg">
+    //             {personne.gender || 'Non renseigné'}
+    //           </span>
+    //         </div>
+    //       </div>
+    //       <div className="flex-1 w-full">
+    //         <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+    //           {personne.first_name} {personne.last_name}
+    //           <span className="inline-block bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded ml-2 align-middle">
+    //             {personne.age ? `${personne.age} ans` : ''}
+    //           </span>
+    //         </h2>
+    //         <ul className="divide-y divide-gray-800 mb-3">
+    //           <li className="flex items-center gap-2 py-2">
+    //             <CakeIcon className="w-5 h-5 text-cyan-400" />
+    //             <span className="font-semibold text-cyan-400 w-1/3 truncate">Date de naissance :</span>
+    //             <span className="ml-1">{formatDateFR(personne.birth_date) || 'Non renseigné'}</span>
+    //           </li>
+    //           <li className="flex items-center gap-2 py-2">
+    //             <MapPinIcon className="w-5 h-5 text-cyan-400" />
+    //             <span className="font-semibold text-cyan-400 w-1/3 truncate">Lieu de naissance :</span>
+    //             <span className="ml-1">{personne.birth_place || 'Non renseigné'}</span>
+    //           </li>
+    //           <li className="flex items-center gap-2 py-2">
+    //             <UserIcon className="w-5 h-5 text-cyan-400" />
+    //             <span className="font-semibold text-cyan-400 w-1/3">Père :</span>
+    //             <span className="ml-1">{getNomPrenom(personne.father)}</span>
+    //           </li>
+    //           <li className="flex items-center gap-2 py-2">
+    //             <UserIcon className="w-5 h-5 text-cyan-400" />
+    //             <span className="font-semibold text-cyan-400 w-1/3">Mère :</span>
+    //             <span className="ml-1">{getNomPrenom(personne.mother)}</span>
+    //           </li>
+    //           <li className="flex items-center gap-2 py-2">
+    //             <HeartIcon className="w-5 h-5 text-pink-400" />
+    //             <span className="font-semibold text-cyan-400 w-1/3">Conjoint :</span>
+    //             <span className="ml-1">{getNomPrenom(personne.conjoint)}</span>
+    //           </li>
+    //         </ul>
+    //         {personne.notes && (
+    //           <div className="bg-cyan-900/30 border-l-4 border-cyan-400 text-cyan-100 py-2 px-4 mb-3 flex items-center gap-2">
+    //             <InformationCircleIcon className="w-5 h-5 text-cyan-400" />
+    //             {personne.notes}
+    //           </div>
+    //         )}
+    //         <div className="flex flex-col md:flex-row justify-center gap-3 mt-4">
+    //           {/* Modifier + Supprimer groupés */}
+    //           <div className="flex flex-row gap-3 w-full sm:w-auto">
+    //             {isAdmin && (
+    //               <>
+    //                 <button
+    //                   onClick={() => router.push(`/personnes/${id}/edit`)}
+    //                   className="flex-1 sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
+    //                 >
+    //                   <PencilSquareIcon className="w-5 h-5" /> Modifier
+    //                 </button>
+    //                 <button
+    //                   onClick={handleDelete}
+    //                   className="flex-1 sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-pink-500 to-red-600 text-white font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
+    //                   type="button"
+    //                 >
+    //                   <TrashIcon className="w-5 h-5" /> Supprimer
+    //                 </button>
+    //               </>
+    //             )}
+    //           </div>
+    //           {getIdFamille() && (
+    //             <button
+    //               onClick={() => {
+    //                   const id = getIdFamille(); 
+    //                   router.push(`/familles/${id}/`)
+    //                 }}
+    //               className="w-full sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-green-400 to-green-600 text-white font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
+    //             >
+    //               <TreesIcon className="w-5 h-5"/>Voir l’arbre généalogique
+    //             </button>
+    //           )}
+    //           {/* Retour à la liste */}
+    //           <button
+    //             onClick={() => router.push(`/personnes`)}
+    //             className="w-full sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-gray-400 to-gray-600 text-white font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
+    //           >
+    //             <ArrowLeftIcon className="w-5 h-5" /> Retour à la liste
+    //           </button>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+<div className="container py-8 mx-auto">
       <div className="max-w-3xl mx-5 md:mx-auto card bg-gray-900 text-white mb-8 shadow-lg border-2 border-cyan-400 rounded-2xl">
-        <div className="flex flex-col md:flex-row items-center gap-8 p-8">
-          <div className="text-center">
-            <Image
-              src={getPhotoUrl(personne.photo) || ""}
-              alt="Photo"
-              width={150}
-              height={150}
-              className="rounded-full border-4 border-cyan-400 shadow-lg"
-            />
+        <div className="flex flex-col md:flex-row items-center gap-4gap-8 p-4 md:p-8">
+          <div className="flex flex-col items-center justify-center md:w-1/3">
+            <div className="relative">
+              <Image
+                src={getPhotoUrl(personne.photo) || ""}
+                alt="Photo"
+                width={150}
+                height={150}
+                className="rounded-full border-4 border-cyan-400 shadow-lg"
+              />
+              {personne.age && (
+                <div className="absolute top-2 right-0 bg-yellow-400 text-gray-900 font-bold text-xs px-2 py-1 rounded-bl-lg rounded-tr-xl md:hidden">
+                  {personne.age} ans
+                </div>
+              )}
+            </div>
             <div className="mt-2">
-              <span className="inline-block bg-cyan-400 text-gray-900 text-sm font-semibold px-3 py-1 rounded-full">
+              <span className="hidden md:inline-block  bg-cyan-400 text-gray-900 text-sm font-semibold px-3 py-1 rounded-lg">
                 {personne.gender || 'Non renseigné'}
               </span>
             </div>
           </div>
-          <div className="flex-1 w-full">
-            <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-              {personne.first_name} {personne.last_name}
-              <span className="inline-block bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded ml-2 align-middle">
-                {personne.age ? `${personne.age} ans` : ''}
-              </span>
-            </h2>
+          <div className="flex-1 w-full md:w-2/3">
+            <div className="text-center md:text-left mb-4">
+              <h2 className="text-2xl font-bold mb-2 flex flex-col md:flex-row items-center justify-center  gap-2">
+                <span>{personne.first_name} {personne.last_name}</span>
+                <span className="hidden md:inline-block bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
+                  {personne.age ? `${personne.age} ans` : ''}
+                </span>
+              </h2>
+            </div>
             <ul className="divide-y divide-gray-800 mb-3">
               <li className="flex items-center gap-2 py-2">
                 <CakeIcon className="w-5 h-5 text-cyan-400" />
@@ -124,49 +234,51 @@ export default function PersonneDetail() {
                 {personne.notes}
               </div>
             )}
-            <div className="flex flex-col md:flex-row justify-center gap-3 mt-4">
-              {/* Modifier + Supprimer groupés */}
-              <div className="flex flex-row gap-3 w-full sm:w-auto">
-                {isAdmin && (
-                  <>
-                    <button
-                      onClick={() => router.push(`/personnes/${id}/edit`)}
-                      className="flex-1 sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
-                    >
-                      <PencilSquareIcon className="w-5 h-5" /> Modifier
-                    </button>
-                    <button
-                      onClick={handleDelete}
-                      className="flex-1 sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-pink-500 to-red-600 text-white font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
-                      type="button"
-                    >
-                      <TrashIcon className="w-5 h-5" /> Supprimer
-                    </button>
-                  </>
-                )}
-              </div>
-              {getIdFamille() && (
-                <button
-                  onClick={() => {
-                      const id = getIdFamille(); 
-                      router.push(`/familles/${id}/`)
-                    }}
-                  className="w-full sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-green-400 to-green-600 text-white font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
-                >
-                  <TreesIcon className="w-5 h-5"/>Voir l’arbre généalogique
-                </button>
+          </div>
+        </div>
+        {/* Bloc des boutons qui prend toute la largeur */}
+        <div className="px-4 md:px-8 pb-4 md:pb-8">
+          <div className="flex flex-col md:flex-row justify-center gap-3">
+            {/* Modifier + Supprimer groupés */}
+            <div className="flex flex-row gap-3 w-full sm:w-auto">
+              {isAdmin && (
+                <>
+                  <button
+                    onClick={() => router.push(`/personnes/${id}/edit`)}
+                    className="flex-1 sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 font-bold py-2 px-4 !rounded-lg shadow-md hover:scale-105 transition text-base focus:outline-none"
+                  >
+                    <PencilSquareIcon className="w-5 h-5" /> Modifier
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="flex-1 sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-pink-500 to-red-600 text-white font-bold py-2 px-4 !rounded-lg shadow-md hover:scale-105 transition text-base focus:outline-none"
+                    type="button"
+                  >
+                    <TrashIcon className="w-5 h-5" /> Supprimer
+                  </button>
+                </>
               )}
-              {/* Retour à la liste */}
-              <button
-                onClick={() => router.push(`/personnes`)}
-                className="w-full sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-gray-400 to-gray-600 text-white font-bold py-2 px-4 rounded shadow-md hover:scale-105 transition text-base focus:outline-none"
-              >
-                <ArrowLeftIcon className="w-5 h-5" /> Retour à la liste
-              </button>
             </div>
+            {getIdFamille() && (
+              <button
+                onClick={() => {
+                    const id = getIdFamille(); 
+                    router.push(`/familles/${id}/`)
+                  }}
+                className="w-full sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-green-400 to-green-600 text-white font-bold py-2 px-4 !rounded-lg shadow-md hover:scale-105 transition text-base focus:outline-none"
+              >
+                <TreesIcon className="w-5 h-5"/>Voir l&#39;arbre généalogique
+              </button>
+            )}
+            {/* Retour à la liste */}
+            <button
+              onClick={() => router.push(`/personnes`)}
+              className="w-full sm:min-w-[110px] inline-flex items-center justify-center gap-2 !bg-gradient-to-r from-gray-400 to-gray-600 text-white font-bold py-2 px-4 !rounded-lg shadow-md hover:scale-105 transition text-base focus:outline-none"
+            >
+              <ArrowLeftIcon className="w-5 h-5" /> Retour à la liste
+            </button>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>  );
 } 
