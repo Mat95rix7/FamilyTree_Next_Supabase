@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSupabaseServer } from "../../lib/supabaseServer";
+import { getSupabaseServer } from "../lib/supabaseServer";
 
 export default async function AdminLayout({ children }) {
   const supabase = await getSupabaseServer();

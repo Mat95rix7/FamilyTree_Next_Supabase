@@ -180,7 +180,7 @@ export default function Navbar() {
                                     <Link
                                       href={'/'}
                                       onClick={handleLogout} 
-                                      className="flex items-center gap-2 p-3 hover:bg-gray-600 hover:text-gray-200 rounded-lg m-1 cursor-pointer"
+                                      className="flex justify-center gap-2 py-3 bg-gray-800 hover:bg-gray-600 hover:text-gray-200  rounded-lg  cursor-pointer"
                                       >
                                         <IoLogOutOutline className="w-6 h-6 text-amber-600"/>                                      
                                       <span className="text-lg font-bold">Déconnexion</span>
