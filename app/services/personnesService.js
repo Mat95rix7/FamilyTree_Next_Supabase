@@ -155,7 +155,7 @@ export async function updatePersonne(id, formData) {
       throw new Error('Personne non trouvée');
     }
 
-    let photoUrl = existing.photo;
+    let photoUrl
 
     // Gérer le fichier photo depuis FormData
     const file = formData.get('photo');
@@ -183,7 +183,7 @@ export async function updatePersonne(id, formData) {
       conjointId: formData.get('conjointId') || null,
       date_deces: formData.get('date_deces') || formData.get('dateDeces') || null,
       notes: formData.get('notes') || null,
-      photo: photoUrl,
+      photo: file ? photoUrl : null,
     };
 
     // Si l'ancien conjoint existe mais est différent du nouveau

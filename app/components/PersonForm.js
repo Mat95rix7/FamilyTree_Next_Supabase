@@ -39,6 +39,7 @@ export default function PersonForm({
       setNotes(initialData.notes || "");
       setDateDeces(initialData.dateDeces || "");
       setShowDateDeces(!!initialData.dateDeces);
+      setPhoto(initialData.photo || null);
     }
   }, [initialData, mode]);
 

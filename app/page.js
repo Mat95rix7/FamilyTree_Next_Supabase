@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { isConnected, role } = useAuth();
-  console.log(isConnected, role);
   const router = useRouter();
 
   return (  

@@ -13,6 +13,7 @@ export async function apiFetch(path, options = {}) {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 
+
     const response = await fetch(url, { ...options, headers });
 
     // Gérer ici les erreurs si besoin (401 par exemple)

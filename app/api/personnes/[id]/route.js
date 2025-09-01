@@ -15,10 +15,8 @@ export async function GET(request, { params }) {
 export async function PUT(request, { params }) {
   try {
     const { id } = await params;
-    
     // Récupérer les données du formulaire
-    const formData = await request.formData();
-    
+    const formData = await request.formData(); 
     // Passer directement le FormData à updatePersonne
     const personne = await updatePersonne(id, formData);
     
