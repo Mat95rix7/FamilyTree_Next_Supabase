@@ -24,6 +24,8 @@ export default function PersonForm({
   const [showDateDeces, setShowDateDeces] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const maxAge = 20;
+  const minAgeDifference = 15;
 
   // Initialiser le formulaire avec les données existantes
   useEffect(() => {
@@ -51,38 +53,225 @@ export default function PersonForm({
       .catch((error) => console.error("Erreur lors du chargement des personnes:", error));
   }, []);
 
-  // Réinitialiser le conjoint si le genre change et n'est plus compatible
+  // Réinitialiser les relations si incompatibles après changement de données
   useEffect(() => {
-    if (conjoint && gender) {
-      const selectedConjoint = personnes.find(p => p.id.toString() === conjoint.toString());
-      if (selectedConjoint) {
-        const expectedGender = gender === "Homme" ? "Femme" : "Homme";
-        if (selectedConjoint.gender !== expectedGender) {
-          setConjoint(""); // Réinitialiser si incompatible
+    validateAndResetRelations();
+  }, [gender, birth_date, personnes]);
+
+  // Fonction pour calculer l'âge à partir d'une date de naissance
+  const calculateAge = (birthDate) => {
+    if (!birthDate) return 0;
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Fonction pour obtenir les enfants d'une personne (pour éviter les relations incestueuses)
+  const getPersonChildren = (personId) => {
+    if (!personId) return [];
+    return personnes.filter(p => 
+      p.fatherId?.toString() === personId.toString() || 
+      p.motherId?.toString() === personId.toString()
+    );
+  };
+
+  // Fonction pour obtenir les parents d'une personne
+  const getPersonParents = (personId) => {
+    if (!personId) return [];
+    const person = personnes.find(p => p.id?.toString() === personId.toString());
+    if (!person) return [];
+    
+    const parents = [];
+    if (person.fatherId) {
+      const father = personnes.find(p => p.id?.toString() === person.fatherId.toString());
+      if (father) parents.push(father);
+    }
+    if (person.motherId) {
+      const mother = personnes.find(p => p.id?.toString() === person.motherId.toString());
+      if (mother) parents.push(mother);
+    }
+    return parents;
+  };
+
+  // Fonction pour vérifier si une personne est un descendant (enfant, petit-enfant, etc.)
+  const isDescendant = (personId, ancestorId) => {
+    if (!personId || !ancestorId) return false;
+    
+    const person = personnes.find(p => p.id?.toString() === personId.toString());
+    if (!person) return false;
+    
+    // Vérification directe (parent)
+    if (person.fatherId?.toString() === ancestorId.toString() || 
+        person.motherId?.toString() === ancestorId.toString()) {
+      return true;
+    }
+    
+    // Vérification récursive (grands-parents, etc.)
+    const parents = getPersonParents(personId);
+    for (const parent of parents) {
+      if (isDescendant(parent.id, ancestorId)) {
+        return true;
+      }
+    }
+    
+    return false;
+  };
+
+  // Fonction pour vérifier si une personne est un ascendant (parent, grand-parent, etc.)
+  const isAscendant = (personId, descendantId) => {
+    return isDescendant(descendantId, personId);
+  };
+
+  // Fonction pour valider et réinitialiser les relations incompatibles
+  const validateAndResetRelations = () => {
+    const currentPersonId = initialData?.id;
+    
+    // Valider le père
+    if (father && currentPersonId) {
+      const fatherPerson = personnes.find(p => p.id?.toString() === father.toString());
+      if (fatherPerson) {
+        const fatherAge = calculateAge(fatherPerson.birth_date);
+        const currentAge = calculateAge(birth_date);
+        
+        if (fatherAge < maxAge || 
+            (currentAge > 0 && fatherAge - currentAge < minAgeDifference) ||
+            isDescendant(father, currentPersonId) ||
+            isAscendant(currentPersonId, father)) {
+          setFather("");
         }
       }
     }
-  }, [gender, conjoint, personnes]);
-
-  // Fonctions de filtrage par genre
-  const getFilteredPersonnes = (targetGender, excludeSelf = true) => {
-    return personnes.filter(p => {
-      // Exclure la personne elle-même en mode édition
-      if (excludeSelf && mode === "edit" && initialData && p.id === initialData.id) {
-        return false;
+    
+    // Valider la mère
+    if (mother && currentPersonId) {
+      const motherPerson = personnes.find(p => p.id?.toString() === mother.toString());
+      if (motherPerson) {
+        const motherAge = calculateAge(motherPerson.birth_date);
+        const currentAge = calculateAge(birth_date);
+        
+        if (motherAge < maxAge || 
+            (currentAge > 0 && motherAge - currentAge < minAgeDifference) ||
+            isDescendant(mother, currentPersonId) ||
+            isAscendant(currentPersonId, mother)) {
+          setMother("");
+        }
       }
-      // Filtrer par genre
-      return p.gender === targetGender;
+    }
+    
+    // Valider le conjoint
+    if (conjoint && currentPersonId) {
+      const conjointPerson = personnes.find(p => p.id?.toString() === conjoint.toString());
+      if (conjointPerson) {
+        const conjointAge = calculateAge(conjointPerson.birth_date);
+        const expectedGender = gender === "Homme" ? "Femme" : "Homme";
+        
+        if (conjointAge < maxAge ||
+            conjointPerson.gender !== expectedGender ||
+            isDescendant(conjoint, currentPersonId) ||
+            isAscendant(currentPersonId, conjoint) ||
+            isDescendant(currentPersonId, conjoint) ||
+            isAscendant(conjoint, currentPersonId)) {
+          setConjoint("");
+        }
+      }
+    }
+  };
+
+  // Fonction pour filtrer les pères potentiels
+  const getFatherOptions = () => {
+    const currentPersonId = initialData?.id;
+    const currentAge = calculateAge(birth_date);
+    
+    return personnes.filter(p => {
+      // Doit être un homme
+      if (p.gender !== "Homme") return false;
+      
+      // Ne pas s'inclure soi-même
+      if (currentPersonId && p.id?.toString() === currentPersonId.toString()) return false;
+      
+      // Doit avoir au moins maxAge ans
+      const age = calculateAge(p.birth_date);
+      if (age < maxAge) return false;
+      
+      // Doit avoir au moins 15 ans de plus que la personne actuelle (si on connaît son âge)
+      if (currentAge > 0 && age - currentAge < minAgeDifference) return false;
+
+      // Ne peut pas être un descendant de la personne actuelle
+      if (currentPersonId && isDescendant(p.id, currentPersonId)) return false;
+      
+      // Ne peut pas être un ascendant de la personne actuelle (éviter les boucles généalogiques)
+      if (currentPersonId && isAscendant(currentPersonId, p.id)) return false;
+      
+      return true;
     });
   };
 
-  const getConjointOptions = () => {
-    if (!gender) return []; // Pas d'options si le genre n'est pas sélectionné
+  // Fonction pour filtrer les mères potentielles
+  const getMotherOptions = () => {
+    const currentPersonId = initialData?.id;
+    const currentAge = calculateAge(birth_date);
     
-    // Si la personne est un homme, montrer les femmes
-    // Si la personne est une femme, montrer les hommes
+    return personnes.filter(p => {
+      // Doit être une femme
+      if (p.gender !== "Femme") return false;
+      
+      // Ne pas s'inclure soi-même
+      if (currentPersonId && p.id?.toString() === currentPersonId.toString()) return false;
+      
+      // Doit avoir au moins maxAge ans
+      const age = calculateAge(p.birth_date);
+      if (age < maxAge) return false;
+
+      // Doit avoir au moins 15 ans de plus que la personne actuelle (si on connaît son âge)
+      if (currentAge > 0 && age - currentAge < minAgeDifference) return false;
+
+      // Ne peut pas être un descendant de la personne actuelle
+      if (currentPersonId && isDescendant(p.id, currentPersonId)) return false;
+      
+      // Ne peut pas être un ascendant de la personne actuelle (éviter les boucles généalogiques)
+      if (currentPersonId && isAscendant(currentPersonId, p.id)) return false;
+      
+      return true;
+    });
+  };
+
+  // Fonction pour filtrer les conjoints potentiels
+  const getConjointOptions = () => {
+    if (!gender) return [];
+    
+    const currentPersonId = initialData?.id;
     const targetGender = gender === "Homme" ? "Femme" : "Homme";
-    return getFilteredPersonnes(targetGender, true);
+    
+    return personnes.filter(p => {
+      // Doit être du sexe opposé
+      if (p.gender !== targetGender) return false;
+      
+      // Ne pas s'inclure soi-même
+      if (currentPersonId && p.id?.toString() === currentPersonId.toString()) return false;
+      
+      // Doit avoir au moins maxAge ans
+      const age = calculateAge(p.birth_date);
+      if (age < maxAge) return false;
+      
+      // Ne peut pas être un enfant de la personne actuelle
+      if (currentPersonId && isDescendant(p.id, currentPersonId)) return false;
+      
+      // Ne peut pas être un parent de la personne actuelle
+      if (currentPersonId && isAscendant(p.id, currentPersonId)) return false;
+      
+      // Ne peut pas être dans la même lignée familiale directe
+      if (currentPersonId && (isDescendant(currentPersonId, p.id) || isAscendant(currentPersonId, p.id))) return false;
+      
+      // Ne peut pas avoir de conjoint
+      if (p.conjointId) return false;
+      
+      return true;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -237,34 +426,47 @@ export default function PersonForm({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Père</label>
+            <label className="block text-cyan-300 font-semibold mb-1">
+              Père
+            </label>
             <select 
               value={father} 
               onChange={e => setFather(e.target.value)} 
               className="w-full p-2 rounded bg-gray-800 border border-cyan-400 text-white"
             >
               <option value="">--Aucun--</option>
-              {getFilteredPersonnes("Homme", true).map(p => (
+              {getFatherOptions().map(p => (
                 <option key={p.id} value={p.id}>
                   {p.last_name} {p.first_name}
                 </option>
               ))}
             </select>
+            {getFatherOptions().length === 0 && (
+              <p className="text-gray-400 text-sm mt-1">
+                Aucun père potentiel disponible
+              </p>
+            )}
           </div>
           <div>
-            <label className="block text-cyan-300 font-semibold mb-1">Mère</label>
+            <label className="block text-cyan-300 font-semibold mb-1">
+              Mère</label>
             <select 
               value={mother} 
               onChange={e => setMother(e.target.value)} 
               className="w-full p-2 rounded bg-gray-800 border border-cyan-400 text-white"
             >
               <option value="">--Aucune--</option>
-              {getFilteredPersonnes("Femme", true).map(p => (
+              {getMotherOptions().map(p => (
                 <option key={p.id} value={p.id}>
                   {p.last_name} {p.first_name}
                 </option>
               ))}
             </select>
+            {getMotherOptions().length === 0 && (
+              <p className="text-gray-400 text-sm mt-1">
+                Aucune mère potentielle disponible
+              </p>
+            )}
           </div>
         </div>
 
@@ -291,6 +493,11 @@ export default function PersonForm({
             {gender && getConjointOptions().length === 0 && (
               <p className="text-gray-400 text-sm mt-1">
                 Aucun {gender === "Homme" ? "femme" : "homme"} disponible
+              </p>
+            )}
+            {!gender && (
+              <p className="text-gray-400 text-sm mt-1">
+                Veuillez d&apos;abord sélectionner le sexe
               </p>
             )}
           </div>

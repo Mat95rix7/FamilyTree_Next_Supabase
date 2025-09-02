@@ -12,7 +12,8 @@ import {
   UserCheck,
   UserX,
   Calendar,
-  TrendingUp
+  TrendingUp,
+  Home
 } from 'lucide-react';
 import { apiFetch } from '../services/FetchAPI';
 
@@ -26,6 +27,7 @@ const AdminDashboard = () => {
   const [pagination, setPagination] = useState({});
   const [editingUser, setEditingUser] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [familles, setFamilles] = useState([]);
 
   // Formulaire pour créer/modifier un utilisateur
   const [userForm, setUserForm] = useState({
@@ -35,6 +37,15 @@ const AdminDashboard = () => {
     role: 'user',
     isActive: true
   });
+
+  useEffect(() => {
+    apiFetch("/familles")
+      .then((res) => res.json())
+      .then((data) => {
+        setFamilles(data);
+        setLoading(false);
+      });
+  }, []);
 
   // Charger les statistiques
   const loadStats = async () => {
@@ -277,10 +288,10 @@ const AdminDashboard = () => {
       {/* Navigation */}
       <nav className="border-b">
         <div className="max-w-7xl mx-auto px-4 my-3 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
+          <div className="flex space-x-8 justify-around">
             <button
               onClick={() => setActiveTab('stats')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`w-1/2 py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'stats'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -291,7 +302,7 @@ const AdminDashboard = () => {
             </button>
             <button
               onClick={() => setActiveTab('users')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`w-1/2 py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'users'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -316,19 +327,9 @@ const AdminDashboard = () => {
               </div>
             ) : stats ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                {/* Cartes de statistiques */}
-                <div className="bg-white rounded-lg shadow p-6">
-                  <div className="flex items-center">
-                    <Users className="h-8 w-8 text-blue-600" />
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Utilisateurs</p>
-                      <p className="text-2xl font-bold text-gray-900">
-                        {stats.users.reduce((sum, user) => sum + parseInt(user.count), 0)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
 
+                {/* Cartes de statistiques */}
+                
                 <div className="bg-white rounded-lg shadow p-6">
                   <div className="flex items-center">
                     <UserCheck className="h-8 w-8 text-green-600" />
@@ -343,11 +344,11 @@ const AdminDashboard = () => {
 
                 <div className="bg-white rounded-lg shadow p-6">
                   <div className="flex items-center">
-                    <TrendingUp className="h-8 w-8 text-orange-600" />
+                    <Home className="h-8 w-8 text-orange-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Décédés</p>
+                      <p className="text-sm font-medium text-gray-600">Familles</p>
                       <p className="text-2xl font-bold text-gray-900">
-                        {stats.persons.deceased}
+                        {familles.length || 0}
                       </p>
                     </div>
                   </div>
@@ -360,6 +361,18 @@ const AdminDashboard = () => {
                       <p className="text-sm font-medium text-gray-600">Âge moyen</p>
                       <p className="text-2xl font-bold text-gray-900">
                         {Math.round(stats.persons.averageAge || 0)} ans
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow p-6">
+                  <div className="flex items-center">
+                    <Users className="h-8 w-8 text-blue-600" />
+                    <div className="ml-4">
+                      <p className="text-sm font-medium text-gray-600">Total Utilisateurs</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {stats.users.reduce((sum, user) => sum + parseInt(user.count), 0)}
                       </p>
                     </div>
                   </div>
